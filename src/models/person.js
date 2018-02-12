@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Salasana = require('./salasana')
+const Salasana = require('../../.env')
 
 const url = `mongodb://lesktimo:${Salasana.salaisuus()}@ds019986.mlab.com:19986/fullstack-backend`
 
