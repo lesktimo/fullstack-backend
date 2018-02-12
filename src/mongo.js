@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const Salasana = require('../../.env')
 
-const url = 'mongodb://lesktimo:vaikeasalasana@ds019986.mlab.com:19986/fullstack-backend'
+const url = `mongodb://lesktimo:${Salasana.salaisuus()}@ds019986.mlab.com:19986/fullstack-backend`
 
 mongoose.connect(url)
 
