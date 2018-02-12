@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').load();
 }
 
-const url = `mongodb://lesktimo:${process.env.MONGOPASS1}@ds019986.mlab.com:19986/fullstack-backend`
+const url = process.env.MONGODB_URI
 
 mongoose.connect(url)
 
