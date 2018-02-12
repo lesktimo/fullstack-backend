@@ -3,34 +3,23 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
 app.use(express.static('build'))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
-let persons = [
-    {
-        name: "Arto Hellas",
-        number: "040-123456",
-        id: 1
-    },
-    {
-        name: "Matti Tienari",
-        number: "040-123456",
-        id: 2
-    },
-    {
-        name: "Arto Järvinen",
-        number: "040-123456",
-        id: 3
-    },
-    {
-        name: "Lea Kutvonen",
-        number: "040-123456",
-        id: 4
-    }
-]
+let persons = []
+
+Person
+.find({})
+.then(result => {
+    result.forEach(person => {
+        persons = persons.concat(person)
+    })
+    mongoose.connetion.close()
+})
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
@@ -70,13 +59,16 @@ app.post('/api/persons', (req, res) => {
         }
     }
     const newId = Math.floor((Math.random() * 1000000) + 1)
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
         id: newId
-    }
-    persons = persons.concat(person)
-    res.json(person)
+    })
+    person
+        .save()
+        .then(savedPerson => {
+            res.json(formatPerson(savedPerson))
+        })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -85,6 +77,14 @@ app.delete('/api/persons/:id', (req, res) => {
     persons = persons.filter(person => person.id !== id)
     res.status(204).end()
 })
+
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
