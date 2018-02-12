@@ -22,7 +22,7 @@ app.get('/info', (req, res) => {
         .then(persons => {
             persons.forEach(person => {
                 i++
-                console.log(i)
+                console.log(person)
             })
             res.send(`<p>puhelinluettelossa on ${i} henkilön tiedot</p>
                 <p>${date}</p>`)
@@ -31,36 +31,36 @@ app.get('/info', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
     Person
-      .find({})
-      .then(persons => {
-        res.json(persons.map(format))
-      })
+        .find({})
+        .then(persons => {
+            res.json(persons.map(format))
+        })
 })
 
 app.get('/api/persons/:id', (req, res) => {
     Person
         .findById(req.params.id)
         .then(person => {
-            if(persons){
+            if(person){
                 res.json(format(person))
             } else {
-                response.status(404).end()
+                res.status(404).end()
             }
         })
         .catch(error => {
             console.log(error)
-            response.status(404).send({error: 'malformed id'})
+            res.status(404).send({ error: 'malformed id' })
         })
 })
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
     const nameToBeAdded = body.name
-    if(body.name === undefined || body.name === ""){
-        return res.status(400).json({error: 'name missing'})
+    if(body.name === undefined || body.name === '') {
+        return res.status(400).json({ error: 'name missing' })
     }
-    if(body.number === undefined || body.number === ""){
-        return res.status(400).json({error: 'number missing'})
+    if(body.number === undefined || body.number === '') {
+        return res.status(400).json({ error: 'number missing' })
     }
     const person = new Person({
         name: body.name,
@@ -70,15 +70,15 @@ app.post('/api/persons', (req, res) => {
         .find({name: person.name})
         .then(foundPerson => {
             console.log('löydetty: ', foundPerson.name)
-            if(foundPerson.name === nameToBeAdded){
+            if(foundPerson.name === nameToBeAdded) {
                 console.log('nimi:', nameToBeAdded)
-                return res.status(400).json({error: 'name must be unique'})
+                return res.status(400).json({ error: 'name must be unique' })
             } else {
                 person
                     .save()
                     .then(savedPerson => {
                         res.json(format(savedPerson))
-                    })      
+                    })
             }
         })
 })
@@ -90,7 +90,7 @@ app.delete('/api/persons/:id', (req, res) => {
             res.status(204).end()
         })
         .catch(error => {
-            res.status(400).send({error: 'malformed id'})
+            res.status(400).send({ error: 'malformed id' })
         })
 })
 
@@ -107,7 +107,7 @@ app.put('/api/persons/:id', (req, res) => {
         })
         .catch(error => {
             console.log(error)
-            res.status(400).send({error: 'malformed id'})
+            res.status(400).send({ error: 'malformed id' })
         })
 })
 
