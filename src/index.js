@@ -55,6 +55,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
+    const nameToBeAdded = body.name
     if(body.name === undefined || body.name === ""){
         return res.status(400).json({error: 'name missing'})
     }
@@ -68,7 +69,9 @@ app.post('/api/persons', (req, res) => {
     Person
         .find({name: person.name})
         .then(foundPerson => {
-            if(foundPerson){
+            console.log('löydetty: ', foundPerson.name)
+            if(foundPerson.name === nameToBeAdded){
+                console.log('nimi:', nameToBeAdded)
                 return res.status(400).json({error: 'name must be unique'})
             } else {
                 person
