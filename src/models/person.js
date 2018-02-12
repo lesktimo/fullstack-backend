@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
-const Salasana = require('../../.env')
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').load();
+}
 
-const url = `mongodb://lesktimo:${Salasana.salaisuus()}@ds019986.mlab.com:19986/fullstack-backend`
+const url = `mongodb://lesktimo:${process.env.MONGOPASS1}@ds019986.mlab.com:19986/fullstack-backend`
 
 mongoose.connect(url)
 
