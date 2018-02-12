@@ -1,0 +1,29 @@
+{
+  "name": "fullstack-backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "watch": "nodemon src/index.js",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lesktimo/fullstack-backend.git"
+  },
+  "author": "Timo Leskinen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lesktimo/fullstack-backend/issues"
+  },
+  "homepage": "https://github.com/lesktimo/fullstack-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}
